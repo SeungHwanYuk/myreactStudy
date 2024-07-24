@@ -135,7 +135,13 @@ const Hidden = styled.p``;
 
 export function Gallery() {
   const [page, setPage] = useState(0);
+
+  // useState로 스타일 적용
   const [state, setState] = useState("none");
+
+  // 선생님 답안
+  // const [detailOn, setDetailOn] = useState(false);
+
   console.log("초기", state);
 
   function minus() {
@@ -151,6 +157,9 @@ export function Gallery() {
   function detailClick() {
     setState("block");
     console.log("clicked", state);
+
+    // 선생님 답안
+    // setDetailOn(!detailOn);
   }
 
   useEffect(() => {
@@ -181,6 +190,9 @@ export function Gallery() {
           <Right>
             <button onClick={detailClick}>Detail</button>
             <Content className="detailContent" state={state}>
+              {/* 선생님 답안
+              {detailOn ? <Content>{sculptureList[page].description}
+              </Content> : null} */}
               {sculptureList[page].description}
             </Content>
           </Right>
