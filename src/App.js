@@ -3,6 +3,8 @@ import { Home } from "./Components/20240724/Home";
 import { Menu } from "./Components/20240724/Menu";
 import { ItemList } from "./Components/20240724/ItemList";
 import { OpenWeather } from "./Components/OpenWeatherMap/OpenWeather";
+import { NinjasAPI } from "./Components/OpenWeatherMap/NinjasAPI";
+import { MovieShop } from "./Components/MovieShop/MovieShop";
 
 const GlobalStyle = createGlobalStyle`
 @font-face {
@@ -22,7 +24,8 @@ const GlobalStyle = createGlobalStyle`
 function App() {
   return (
     <>
-      <OpenWeather />
+      <GlobalStyle />
+      <MovieShop />
     </>
   );
 }

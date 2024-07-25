@@ -62,6 +62,33 @@ const Info = styled.div`
   font-size: 1.5rem;
   margin-top: 30px;
 `;
+const SearchBox = styled.div`
+  display: flex;
+  margin-top: 20px;
+`;
+const Input = styled.input`
+  width: 350px;
+`;
+const Button = styled.button`
+  background-color: dodgerblue;
+  border: none;
+  color: white;
+  padding: 5px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1.1rem;
+  margin-left: 20px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  &:hover {
+    background-color: blue;
+  }
+  &:active {
+    background-color: darkblue;
+  }
+`;
 
 export function OpenWeather() {
   const API_KEY = "10c4dd19da675f67a7cfd78eb3a85785";
@@ -81,12 +108,10 @@ export function OpenWeather() {
 
     // 위도 , 경도로 찾기
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
-    // 도시 이름으로 찾기
-    const urlCity = `https://api.openweathermap.org/data/2.5/find?q=${inputCity}&appid=${API_KEY}&units=metric`;
 
     // 1. Axios (Async ~ await) ☆☆☆☆☆☆☆☆☆☆☆☆☆☆
     try {
-      const response = await axios.get(urlCity);
+      const response = await axios.get(url);
       const data = response.data;
       console.log(data);
       setCity(data.name);
@@ -129,13 +154,24 @@ export function OpenWeather() {
     //     console.log("요청이 실패했습니다.", error);
     //   });
   }
+  // 도시 이름으로 찾기
+  async function getWeatherByCityName() {
+    const urlCity = `https://api.openweathermap.org/data/2.5/find?q=${inputCity}&appid=${API_KEY}&units=metric`;
 
+    try {
+      const response = await axios.get(urlCity);
+      const data = response.data.list[0];
+      console.log(data);
+      setCity(data.name);
+      setTemp(parseInt(data.main.temp));
+      setIcon(data.weather[0].icon);
+      setWeather(data.weather[0].main);
+    } catch (error) {
+      console.log("요청이 실패했습니다.", error);
+    }
+  }
   function geoError() {
     alert("현재 위치정보를 찾을 수 없습니다.");
-  }
-
-  function addCity() {
-    setInputCity(tempCity);
   }
 
   // 최초 1회만 실행
@@ -159,11 +195,16 @@ export function OpenWeather() {
             <Info>{weather}</Info>
           </Weather>
         </Card>
-        <input
-          placeholder="도시를 입력하세요"
-          onChange={(e) => setInputCity(e.target.value)}
-        />
-        <button onClick={addCity}>검색</button>
+        <SearchBox>
+          <Input
+            placeholder="도시 이름을 영어로 입력해주세요"
+            onChange={(e) => {
+              setInputCity(e.target.value);
+            }}
+            value={inputCity}
+          />
+          <Button onClick={getWeatherByCityName}>Search</Button>
+        </SearchBox>
       </Container>
     </>
   );
