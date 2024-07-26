@@ -5,6 +5,7 @@ import { ItemList } from "./Components/20240724/ItemList";
 import { OpenWeather } from "./Components/OpenWeatherMap/OpenWeather";
 import { NinjasAPI } from "./Components/OpenWeatherMap/NinjasAPI";
 import { MovieShop } from "./Components/MovieShop/MovieShop";
+import { ReactContext } from "./Components/Utils/ReactContext";
 
 const GlobalStyle = createGlobalStyle`
 @font-face {

@@ -8,6 +8,8 @@ import { Movie } from "./Movie";
 import { MovieList } from "./MovieList";
 import { Search } from "./Search";
 import styled from "styled-components";
+import { MovieWrapper } from "./MovieWrapper";
+import { SearchWrapper } from "./SearchWrapper";
 
 const Container = styled.div`
   width: 100vw;
@@ -38,8 +40,22 @@ export function MovieShop() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/home" element={<Home />} />
-                <Route path="/movie" element={<MovieList />} />
-                <Route path="/search" element={<Search />} />
+
+                {/* 하위 주소를 만들 때 부모 / 자식 형태로 만든다 */}
+                {/* 변화하는 PathVariable상태로 자식을 만들시 path에 : 을 추가한다 */}
+                {/* 이때 부모 컴포넌트는 자식까지 실행시켜주는 컴포넌트로 수정해야함! */}
+                <Route path="/movie" element={<MovieWrapper />}>
+                  {/* 부모였던 MovieList -> MovieWrapper로 컴포넌트를 만들고 바꿔주면
+                MovieWrapper의 Outlet이 부모와 자식을 하나의 주소로 합쳐준다.  */}
+                  <Route index element={<MovieList />} />
+                  <Route path=":id" element={<Movie />} />
+                </Route>
+
+                <Route path="/search" element={<SearchWrapper />}>
+                  <Route index element={<Search />} />
+                  <Route path=":id" element={<Movie />} />
+                </Route>
+
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="*" element={<Error />} />
