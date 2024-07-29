@@ -39,7 +39,6 @@ const Text = styled.div`
 export function Search() {
   const [data, setData] = useState(null);
   const { inputValue, setInputValue } = useContext(SearchContext);
-
   // const { searchState, setSearchState } = useContext(SearchContext);
 
   // useNavigate 후크는 url 주소를 매개변수로 갖는 페이지 변경 함수를 리턴
@@ -49,6 +48,15 @@ export function Search() {
   // ? 에서 "keyword" 라는 이름을 찾고 해당 value를 저장
   const location = useLocation();
   const keyword = new URLSearchParams(location.search).get("keyword");
+
+  // 선생님 솔루션
+  async function teacherSearchMovies() {
+    try {
+      const response = await searchMovieName(keyword);
+    } catch (error) {
+      console.log("에러 발생", error);
+    }
+  }
 
   async function getMoviesByName(name) {
     try {
@@ -60,11 +68,18 @@ export function Search() {
     }
   }
 
+  // 선생님 솔루션
+  // 의존성 배열이 한번만 불리는건 조금 아쉬운 방식
+  // keyword가 변할 때 마다 동작 하는 것이 더욱 좋음
   useEffect(() => {
-    getMoviesByName(keyword ? keyword : "");
+    if (keyword) {
+      getMoviesByName(keyword ? keyword : "");
+    } else {
+      setData("");
+    }
     console.log("keyword : ", keyword);
     setGenreListOfMovie();
-  }, []);
+  }, [keyword]);
 
   return (
     <>
@@ -83,7 +98,7 @@ export function Search() {
           Search
         </button>
       </SearchBox>
-      <h3>{keyword ? keyword : null}</h3>
+      <h3>{keyword ? `"${keyword}"로 검색한 결과 : ` : null}</h3>
       <Container>
         {data &&
           data.results.map((movie) => (
@@ -101,7 +116,7 @@ export function Search() {
                 <b>장르</b> : {getGenre(movie.genre_ids)}
               </Text>
               <hr />
-              <Text></Text>
+              <Text>{movie.overview}</Text>
             </Card>
           ))}
       </Container>

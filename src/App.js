@@ -6,6 +6,9 @@ import { OpenWeather } from "./Components/OpenWeatherMap/OpenWeather";
 import { NinjasAPI } from "./Components/OpenWeatherMap/NinjasAPI";
 import { MovieShop } from "./Components/MovieShop/MovieShop";
 import { ReactContext } from "./Components/Utils/ReactContext";
+import { ResponsivePage } from "./Components/Utils/ResponsivePage";
+import { ReactRef } from "./Components/Utils/ReactRef";
+import { Unity2Dplatformer } from "./Components/Unity/Unity2Dplatformer";
 
 const GlobalStyle = createGlobalStyle`
 @font-face {
@@ -26,7 +29,7 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <MovieShop />
+      <Unity2Dplatformer />
     </>
   );
 }

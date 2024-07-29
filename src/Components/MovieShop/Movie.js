@@ -7,6 +7,7 @@ import {
   IMG_PATH,
 } from "./api";
 import styled from "styled-components";
+import { IconBack } from "./icon";
 
 const Container = styled.div`
   width: 100%;
@@ -65,8 +66,13 @@ export function Movie() {
         <>
           <Header>
             <h1>{detail.title}</h1>
-            <Back>
-              <Link onClick={handleGoBack}>BACK</Link>
+            {/* 선생님 솔루션
+            Link 대신 익명함수로 바로 호출해도됨
+            <Back onClick={()=> navigate(-1)}>BACK</Back> */}
+            <Back onClick={handleGoBack}>
+              {/* svg는 코드가 길어서 지저분해지므로 icon.js에 
+              따로 모아서 이름을 정의하고 컴포넌트를 import 한다 */}
+              <IconBack />
             </Back>
           </Header>
           <Img src={IMG_PATH + detail.backdrop_path} />
